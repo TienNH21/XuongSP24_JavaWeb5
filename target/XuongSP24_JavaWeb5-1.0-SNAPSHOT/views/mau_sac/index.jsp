@@ -18,18 +18,20 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>0</td>
-        <td>PH0</td>
-        <td>Red</td>
-        <td>Ngưng hoạt động </td>
-        <td>
-            <a href="#">Cập nhật</a>
-        </td>
-        <td>
-            <a href="#">Xóa</a>
-        </td>
-    </tr>
+    <c:forEach items="${ data }" var="ms">
+        <tr>
+            <td>${ ms.id }</td>
+            <td>${ ms.ma }</td>
+            <td>${ ms.ten }</td>
+            <td>${ ms.trangThai }</td>
+            <td>
+                <a href="#">Cập nhật</a>
+            </td>
+            <td>
+                <a href="#">Xóa</a>
+            </td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 </body>

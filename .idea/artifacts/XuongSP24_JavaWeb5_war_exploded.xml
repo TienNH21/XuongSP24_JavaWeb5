@@ -15,6 +15,7 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1" />
+          <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:12.6.0.jre11" />
           <element id="library" level="project" name="Maven: jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0" />
           <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:5.0.0" />
         </element>
