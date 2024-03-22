@@ -52,8 +52,23 @@ public class MauSacServlet extends HttpServlet {
 
     protected void index(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        List<MauSac> ds = this.msRepo.findAll();
+        String s1 = req.getParameter("keyword");
+        String s2 = req.getParameter("trangThai");
+        System.out.println("-----");
+        System.out.println(s2);
+        String keyword = s1 == null ? "" : s1.trim();
+        Integer trangThai = s2 == null || s2.trim().length() == 0 ? null : Integer.parseInt(s2.trim());
+        List<MauSac> ds = this.msRepo.findAll(keyword, trangThai);
         req.setAttribute("data", ds);
+
+        if (keyword.length() != 0) {
+            req.setAttribute("keyword", keyword);
+        }
+
+        if (trangThai != null) {
+            req.setAttribute("trangThai", trangThai);
+        }
+
         req.getRequestDispatcher("/views/mau_sac/index.jsp")
             .forward(req, res);
     }
@@ -63,9 +78,12 @@ public class MauSacServlet extends HttpServlet {
         req.getRequestDispatcher("/views/mau_sac/create.jsp").forward(req, res);
     }
 
-    protected void edit(HttpServletRequest req, HttpServletResponse res)
+    protected void edit(HttpServletRequest req, HttpServletResponse res)throws ServletException, IOException
     {
-
+        int id = Integer.parseInt(req.getParameter("id"));
+        MauSac ms = this.msRepo.findById(id);
+        req.setAttribute("ms", ms);
+        req.getRequestDispatcher("/views/mau_sac/edit.jsp").forward(req, res);
     }
 
     protected void delete(HttpServletRequest req, HttpServletResponse res) throws IOException {
@@ -83,8 +101,14 @@ public class MauSacServlet extends HttpServlet {
         res.sendRedirect("/mau-sac/index");
     }
 
-    protected void update(HttpServletRequest req, HttpServletResponse res)
+    protected void update(HttpServletRequest req, HttpServletResponse res) throws IOException
     {
-
+        int id = Integer.parseInt(req.getParameter("id"));
+        String ma = req.getParameter("ma");
+        String ten = req.getParameter("ten");
+        int trangThai = Integer.parseInt(req.getParameter("trangThai"));
+        MauSac ms = new MauSac(id, ma, ten, trangThai);
+        this.msRepo.update(ms);
+        res.sendRedirect("/mau-sac/index");
     }
 }

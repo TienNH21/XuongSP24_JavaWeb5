@@ -82,6 +82,7 @@ public class MauSacRepository {
             PreparedStatement ps = this.conn.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
+            rs.next();
             String ma = rs.getString("Ma");
             String ten = rs.getString("Ten");
             int trangThai = rs.getInt("TrangThai");
@@ -109,5 +110,71 @@ public class MauSacRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<MauSac> findAll(String keyword, Integer trangThai)
+    {
+        List<MauSac> ds = new ArrayList<>();
+
+        /**
+         * Tìm kiếm theo:
+         *      (Ma Like ?) OR (Ten Like ?)
+         *      TrangThai = ?
+         *
+         * Trường hợp 1: Người dùng nhập đủ keyword và trangThai
+         * SELECT * FROM MauSac WHERE ( (Ma Like ?) OR (Ten Like ?) ) AND TrangThai = ?
+         *
+         * Trường hợp 2: Người dùng chỉ nhập keyword
+         * SELECT * FROM MauSac WHERE ( (Ma Like ?) OR (Ten Like ?) )
+         *
+         * Trường hợp 3: Người dùng chỉ chọn trangThai
+         * SELECT * FROM MauSac WHERE TrangThai = ?
+         *
+         * Trường hợp 4: Người dùng KHÔNG chọn gì
+         * SELECT * FROM MauSac
+         */
+        int i = 1;
+        String sql = "SELECT * FROM MauSac";
+
+        if (keyword.length() != 0 || trangThai != null) {
+            sql += " WHERE ";
+        }
+
+        if (keyword.length() != 0) {
+            i = 3;
+            sql += " ( (Ma Like ?) OR (Ten Like ?) ) ";
+        }
+
+        if (trangThai != null) {
+            sql += keyword.length() != 0 ? " AND " : "";
+            sql += " TrangThai = ? ";
+        }
+
+
+        try {
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            if (keyword.length() != 0) {
+                ps.setString(1, "%" + keyword + "%");
+                ps.setString(2, "%" + keyword + "%");
+            }
+
+            if (trangThai != null) {
+                ps.setInt(i, trangThai);
+            }
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String ma = rs.getString("Ma");
+                String ten = rs.getString("Ten");
+                int tt = rs.getInt("TrangThai");
+                MauSac ms = new MauSac(id, ma, ten, tt);
+                ds.add(ms);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ds;
     }
 }
