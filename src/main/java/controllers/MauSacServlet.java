@@ -52,6 +52,8 @@ public class MauSacServlet extends HttpServlet {
 
     protected void index(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
+        /**
+         * Search + Filter
         String s1 = req.getParameter("keyword");
         String s2 = req.getParameter("trangThai");
         System.out.println("-----");
@@ -68,7 +70,19 @@ public class MauSacServlet extends HttpServlet {
         if (trangThai != null) {
             req.setAttribute("trangThai", trangThai);
         }
+         */
 
+        String s1 = req.getParameter("page");
+        String s2 = req.getParameter("limit");
+        int page = (s1 == null || s1.trim().length() == 0) ? 1 : Integer.parseInt(s1.trim());
+        int limit = (s2 == null || s2.trim().length() == 0) ? 10 : Integer.parseInt(s2.trim());
+
+        List<MauSac> ds = this.msRepo.findAll(page, limit);
+        int totalPage = (this.msRepo.count() / limit) + 1;
+        req.setAttribute("data", ds);
+        req.setAttribute("page", page);
+        req.setAttribute("limit", limit);
+        req.setAttribute("totalPage", totalPage);
         req.getRequestDispatcher("/views/mau_sac/index.jsp")
             .forward(req, res);
     }

@@ -177,4 +177,49 @@ public class MauSacRepository {
 
         return ds;
     }
+
+    public List<MauSac> findAll(int page, int limit)
+    {
+        List<MauSac> ds = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM MauSac ORDER BY ID " +
+                    " OFFSET ? ROWS " + // bỏ qua ? bản ghi
+                    " FETCH NEXT ? ROWS ONLY"; // lấy ? bản ghi
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            int offset = (page - 1) * limit;
+            ps.setInt(1, offset);
+            ps.setInt(2, limit);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String ma = rs.getString("Ma");
+                String ten = rs.getString("Ten");
+                int trangThai = rs.getInt("TrangThai");
+                MauSac ms = new MauSac(id, ma, ten, trangThai);
+                ds.add(ms);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ds;
+    }
+
+    public int count()
+    {
+        try {
+            String sql = "SELECT COUNT(ID) Total FROM MauSac";
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            rs.next();
+            return rs.getInt("Total");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 }
