@@ -67,12 +67,12 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="/mau-sac/index?page=1&limit=${limit}">First</a>
+                    <a class="page-link" href="/mau-sac/index?${queryString}&page=1">First</a>
                 </li>
 
                 <c:if test="${ page > 1 }">
                     <li class="page-item">
-                        <a class="page-link" href="/mau-sac/index?page=${ page - 1 }&limit=${limit}">
+                        <a class="page-link" href="/mau-sac/index?${queryString}&page=${ page - 1 }">
                             ${ page - 1 }
                         </a>
                     </li>
@@ -84,12 +84,12 @@
 
                 <c:if test="${ page < totalPage }">
                     <li class="page-item">
-                        <a class="page-link" href="/mau-sac/index?page=${ page + 1 }&limit=${limit}">${ page + 1 }</a>
+                        <a class="page-link" href="/mau-sac/index?${queryString}&page=${ page + 1 }">${ page + 1 }</a>
                     </li>
                 </c:if>
 
                 <li class="page-item">
-                    <a class="page-link" href="/mau-sac/index?page=${ totalPage }&limit=${limit}">Last</a>
+                    <a class="page-link" href="/mau-sac/index?${queryString}&page=${ totalPage }">Last</a>
                 </li>
             </ul>
         </nav>

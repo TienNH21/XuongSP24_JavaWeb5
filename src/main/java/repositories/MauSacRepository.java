@@ -222,4 +222,57 @@ public class MauSacRepository {
 
         return 0;
     }
+
+    public List<MauSac> findAll(int page, int limit, String keyword, Integer trangThai)
+    {
+        List<MauSac> ds = new ArrayList<>();
+        int paramIndex = 1;
+        String sql = "SELECT * FROM MauSac";
+
+        if (keyword.length() != 0 || trangThai != null) {
+            sql += " WHERE ";
+        }
+
+        if (keyword.length() != 0) {
+            sql += " ( (Ma Like ?) OR (Ten Like ?) ) ";
+        }
+
+        if (trangThai != null) {
+            sql += keyword.length() != 0 ? " AND " : "";
+            sql += " TrangThai = ? ";
+        }
+
+        sql += " ORDER BY ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try {
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            if (keyword.length() != 0) {
+                ps.setString(paramIndex++, "%" + keyword + "%");
+                ps.setString(paramIndex++, "%" + keyword + "%");
+            }
+
+            if (trangThai != null) {
+                ps.setInt(paramIndex++, trangThai);
+            }
+
+            int offset = (page - 1) * limit;
+            ps.setInt(paramIndex++, offset);
+            ps.setInt(paramIndex++, limit);
+
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String ma = rs.getString("Ma");
+                String ten = rs.getString("Ten");
+                int tt = rs.getInt("TrangThai");
+                MauSac ms = new MauSac(id, ma, ten, tt);
+                ds.add(ms);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ds;
+    }
 }
