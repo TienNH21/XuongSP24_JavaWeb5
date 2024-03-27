@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MauSacRepository {
@@ -274,5 +275,47 @@ public class MauSacRepository {
         }
 
         return ds;
+    }
+
+    public HashMap<Integer, MauSac> findByIds(List<Integer> listId)
+    {
+        HashMap<Integer, MauSac> result = new HashMap<>();
+
+        String sql = "SELECT * FROM MauSac WHERE ID IN (";
+
+        for (int i = 0; i < listId.size(); i++) {
+            sql += "?";
+            if (i != listId.size()-1) {
+                sql += ",";
+            }
+        }
+
+        sql += ")";
+        System.out.println("----------------------");
+        System.out.println("SQL: ");
+        System.out.println(sql);
+        System.out.println("----------------------");
+        try {
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            for (int i = 0; i < listId.size(); i++) {
+                ps.setInt(i+1, listId.get(i));
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String ma = rs.getString("Ma");
+                String ten = rs.getString("Ten");
+                int trangThai = rs.getInt("TrangThai");
+
+                MauSac ms = new MauSac(id, ma, ten, trangThai);
+                result.put(id, ms);
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }
