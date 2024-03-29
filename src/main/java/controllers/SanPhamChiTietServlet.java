@@ -3,6 +3,7 @@ package controllers;
 import entities.MauSac;
 import entities.SanPham;
 import entities.SanPhamChiTiet;
+import entities.custom.SanPhamChiTietCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -61,15 +62,9 @@ public class SanPhamChiTietServlet extends HttpServlet {
         if (idS != null && idS.trim().length() != 0) {
             int idSP = Integer.parseInt(idS.trim());
             SanPham sp = this.spRepo.findByID(idSP);
-            List<SanPhamChiTiet> listSPCT = this.spctRepo.findByIdSP(idSP);
-            List<Integer> listIdMS = new ArrayList<>();
-            for (SanPhamChiTiet spct: listSPCT) {
-                listIdMS.add(spct.getIdMauSac());
-            }
-            HashMap<Integer, MauSac> listMS = this.msRepo.findByIds(listIdMS);
+            List<SanPhamChiTietCustom> listSPCT = this.spctRepo.findByIdSP(idSP);
 
             req.setAttribute("sanPham", sp);
-            req.setAttribute("listMS", listMS);
             req.setAttribute("data", listSPCT);
             req.getRequestDispatcher("/views/san_pham_chi_tiet/index.jsp")
                 .forward(req, res);

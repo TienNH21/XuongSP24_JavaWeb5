@@ -11,6 +11,11 @@
     <title>Title</title>
 </head>
 <body>
+
+<c:if test="${ not empty sessionScope.error }">
+    <p style="color: red">${ sessionScope.error }</p>
+</c:if>
+
 <form method="POST" action="/mau-sac/store">
     <div>
         <label>Mã</label>

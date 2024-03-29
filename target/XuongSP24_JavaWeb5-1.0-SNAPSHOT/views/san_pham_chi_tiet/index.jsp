@@ -29,8 +29,8 @@
                 <td>${ ms.id }</td>
                 <td>${ ms.maSPCT }</td>
                 <td>${ sanPham.ten }</td>
-                <td>${ listMS[ms.idMauSac].ten }</td>
-                <td>${ ms.idKichThuoc }</td>
+                <td>${ ms.tenMauSac }</td>
+                <td>${ ms.tenKichThuoc }</td>
                 <td>${ ms.soLuong }</td>
                 <td>${ ms.donGia }</td>
                 <td>${ ms.trangThai }</td>
