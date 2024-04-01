@@ -24,16 +24,16 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${ data }" var="ms">
+        <c:forEach items="${ data }" var="spct">
             <tr>
-                <td>${ ms.id }</td>
-                <td>${ ms.maSPCT }</td>
+                <td>${ spct.id }</td>
+                <td>${ spct.maSPCT }</td>
                 <td>${ sanPham.ten }</td>
-                <td>${ ms.tenMauSac }</td>
-                <td>${ ms.tenKichThuoc }</td>
-                <td>${ ms.soLuong }</td>
-                <td>${ ms.donGia }</td>
-                <td>${ ms.trangThai }</td>
+                <td>${ spct.tenMauSac }</td>
+                <td>${ spct.tenKichThuoc }</td>
+                <td>${ spct.soLuong }</td>
+                <td>${ spct.donGia }</td>
+                <td>${ spct.trangThai }</td>
                 <td>
                     <a class="btn btn-primary" href="/mau-sac/edit?id=${ ms.id }">Cập nhật</a>
                 </td>

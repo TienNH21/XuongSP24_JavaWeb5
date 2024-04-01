@@ -1,21 +1,20 @@
 package controllers;
 
-import entities.MauSac;
 import entities.SanPham;
-import entities.SanPhamChiTiet;
-import entities.custom.SanPhamChiTietCustom;
+import entities.mapping_entities.SanPhamChiTiet;
+import entities.mapping_entities.custom.SanPhamChiTietCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import repositories.MauSacRepository;
-import repositories.SanPhamChiTietRepository;
-import repositories.SanPhamRepository;
+import repositories.jdbc.MauSacRepository;
+//import repositories.jdbc.SanPhamChiTietRepository;
+//import entities.custom.SanPhamChiTietCustom;
+import repositories.jdbc.SanPhamRepository;
+import repositories.jpa.SanPhamChiTietRepository;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @WebServlet({

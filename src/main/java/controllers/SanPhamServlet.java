@@ -1,16 +1,13 @@
 package controllers;
 
-import entities.MauSac;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import repositories.MauSacRepository;
-import repositories.SanPhamRepository;
+import repositories.jdbc.SanPhamRepository;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet({
     "/san-pham/index",
