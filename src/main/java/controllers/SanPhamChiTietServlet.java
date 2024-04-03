@@ -1,13 +1,13 @@
 package controllers;
 
 import entities.SanPham;
-import entities.mapping_entities.SanPhamChiTiet;
 import entities.mapping_entities.custom.SanPhamChiTietCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import request.spct.IndexRequest;
 import repositories.jdbc.MauSacRepository;
 //import repositories.jdbc.SanPhamChiTietRepository;
 //import entities.custom.SanPhamChiTietCustom;
@@ -57,17 +57,15 @@ public class SanPhamChiTietServlet extends HttpServlet {
 
     protected void index(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        String idS = req.getParameter("idSanPham");
-        if (idS != null && idS.trim().length() != 0) {
-            int idSP = Integer.parseInt(idS.trim());
-            SanPham sp = this.spRepo.findByID(idSP);
-            List<SanPhamChiTietCustom> listSPCT = this.spctRepo.findByIdSP(idSP);
+        try {
+            IndexRequest params = IndexRequest.make(req.getParameterMap());
+            SanPham sp = this.spRepo.findByID(params.getIdSanPham());
+            List<SanPhamChiTietCustom> listSPCT = this.spctRepo.findByIdSP(params);
 
             req.setAttribute("sanPham", sp);
             req.setAttribute("data", listSPCT);
-            req.getRequestDispatcher("/views/san_pham_chi_tiet/index.jsp")
-                .forward(req, res);
-        } else {
+            req.getRequestDispatcher("/views/san_pham_chi_tiet/index.jsp").forward(req, res);
+        } catch (Exception e) {
             res.sendRedirect("/san-pham/index");
         }
     }

@@ -8,6 +8,34 @@
 </head>
 <body>
 <div class="mt-5 col-10 offset-1">
+
+    <form action="/san-pham-chi-tiet/index?idSanPham=${sanPham.id}" method="GET">
+        <input type="hidden" name="idSanPham" value="${sanPham.id}" />
+        <div class="row">
+            <div class="col-6">
+                <label for="">Từ khóa</label>
+                <input type="text" class="form-control" name="keyword" />
+            </div>
+            <div class="col-6">
+                <label for="">Trạng thái</label>
+                <div>
+                    <input type="radio" class="form-check-input" name="trangThai" value="1" />
+                    <label>Hoạt động</label>
+                    <input type="radio" class="form-check-input" name="trangThai" value="0" />
+                    <label>Ngừng hoạt động</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-6 offset-3 d-flex align-items-center justify-content-center">
+                <button class="btn btn-primary">Tìm kiếm</button>
+                <a href="/san-pham-chi-tiet/index?idSanPham=${sanPham}" class="btn btn-light mr-2">Làm mới</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="mt-5 col-10 offset-1">
     <a href="#" class="btn btn-success">Thêm mới</a>
     <table class="table table-stripped">
         <thead>
