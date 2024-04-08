@@ -57,6 +57,10 @@ public class SanPhamChiTietRepository {
             q.setParameter("trangThai", params.getTrangThai());
         }
 
+        int start = (params.getPage() - 1) * params.getLimit();
+        q.setFirstResult(start);
+        q.setMaxResults(params.getLimit());
+
         return q.getResultList();
     }
 }

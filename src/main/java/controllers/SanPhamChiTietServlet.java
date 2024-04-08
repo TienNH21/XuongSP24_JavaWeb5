@@ -66,6 +66,7 @@ public class SanPhamChiTietServlet extends HttpServlet {
             req.setAttribute("data", listSPCT);
             req.getRequestDispatcher("/views/san_pham_chi_tiet/index.jsp").forward(req, res);
         } catch (Exception e) {
+            e.printStackTrace();
             res.sendRedirect("/san-pham/index");
         }
     }
